@@ -12,7 +12,6 @@ export interface InstagramProfile {
   lastScraped: string;
   verified: boolean;
   profileUrl: string;
-  mpid?: string;
 }
 
 // Mock data for demonstration
@@ -24,8 +23,7 @@ const mockProfiles: InstagramProfile[] = [{
   posts: 3420,
   lastScraped: '2024-01-15T10:30:00Z',
   verified: true,
-  profileUrl: 'https://instagram.com/cristiano',
-  mpid: "a64dbe85-7a75-48e2-a25a-41bb7c302b07"
+  profileUrl: 'https://instagram.com/cristiano'
 }, {
   id: '2',
   profileName: 'kyliejenner',
@@ -34,8 +32,7 @@ const mockProfiles: InstagramProfile[] = [{
   posts: 7200,
   lastScraped: '2024-01-15T09:15:00Z',
   verified: true,
-  profileUrl: 'https://instagram.com/kyliejenner',
-  mpid: "0762ef27-d2ae-40c5-9b72-046e68ef3651"
+  profileUrl: 'https://instagram.com/kyliejenner'
 }, {
   id: '3',
   profileName: 'selenagomez',
@@ -44,8 +41,7 @@ const mockProfiles: InstagramProfile[] = [{
   posts: 1850,
   lastScraped: '2024-01-15T11:45:00Z',
   verified: true,
-  profileUrl: 'https://instagram.com/selenagomez',
-  mpid: "6f153251-0b8b-49f6-8d50-aa35d5574f05"
+  profileUrl: 'https://instagram.com/selenagomez'
 }, {
   id: '4',
   profileName: 'therock',
@@ -54,8 +50,7 @@ const mockProfiles: InstagramProfile[] = [{
   posts: 7800,
   lastScraped: '2024-01-15T08:20:00Z',
   verified: true,
-  profileUrl: 'https://instagram.com/therock',
-  mpid: "161700cf-d0c5-4348-b898-15bfd8045c95"
+  profileUrl: 'https://instagram.com/therock'
 }, {
   id: '5',
   profileName: 'arianagrande',
@@ -64,8 +59,7 @@ const mockProfiles: InstagramProfile[] = [{
   posts: 4900,
   lastScraped: '2024-01-15T12:10:00Z',
   verified: true,
-  profileUrl: 'https://instagram.com/arianagrande',
-  mpid: "817c2b88-e5e0-4f36-8999-f14f30043c2c"
+  profileUrl: 'https://instagram.com/arianagrande'
 }];
 export type SortField = 'profileName' | 'followers' | 'following' | 'posts' | 'lastScraped';
 export type SortDirection = 'asc' | 'desc';
@@ -126,7 +120,7 @@ const InstagramProfilesTable: React.FC = () => {
     }
     setCurrentPage(1);
   };
-  return <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 p-4 md:p-8" data-magicpath-id="0" data-magicpath-path="InstagramProfilesTable.tsx">
+  return <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 p-4 md:p-8">
       <motion.div initial={{
       opacity: 0,
       y: 20
@@ -135,21 +129,21 @@ const InstagramProfilesTable: React.FC = () => {
       y: 0
     }} transition={{
       duration: 0.6
-    }} className="max-w-7xl mx-auto" data-magicpath-id="1" data-magicpath-path="InstagramProfilesTable.tsx">
-        <header className="mb-8" data-magicpath-id="2" data-magicpath-path="InstagramProfilesTable.tsx">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2" data-magicpath-id="3" data-magicpath-path="InstagramProfilesTable.tsx">
+    }} className="max-w-7xl mx-auto">
+        <header className="mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
             Instagram Profiles
           </h1>
-          <p className="text-lg text-gray-600" data-magicpath-id="4" data-magicpath-path="InstagramProfilesTable.tsx">
+          <p className="text-lg text-gray-600">
             Scraped profile data with advanced filtering and sorting
           </p>
         </header>
 
-        <FilterBar searchTerm={searchTerm} onSearchChange={setSearchTerm} minFollowers={minFollowers} onMinFollowersChange={setMinFollowers} maxFollowers={maxFollowers} onMaxFollowersChange={setMaxFollowers} onClearFilters={handleClearFilters} hasActiveFilters={hasActiveFilters} data-magicpath-id="5" data-magicpath-path="InstagramProfilesTable.tsx" />
+        <FilterBar searchTerm={searchTerm} onSearchChange={setSearchTerm} minFollowers={minFollowers} onMinFollowersChange={setMinFollowers} maxFollowers={maxFollowers} onMaxFollowersChange={setMaxFollowers} onClearFilters={handleClearFilters} hasActiveFilters={hasActiveFilters} />
 
-        <ProfileDataTable profiles={paginatedProfiles} sortField={sortField} sortDirection={sortDirection} onSort={handleSort} data-magicpath-id="6" data-magicpath-path="InstagramProfilesTable.tsx" />
+        <ProfileDataTable profiles={paginatedProfiles} sortField={sortField} sortDirection={sortDirection} onSort={handleSort} />
 
-        <PaginationControls currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} totalItems={filteredAndSortedProfiles.length} itemsPerPage={itemsPerPage} onItemsPerPageChange={setItemsPerPage} data-magicpath-id="7" data-magicpath-path="InstagramProfilesTable.tsx" />
+        <PaginationControls currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} totalItems={filteredAndSortedProfiles.length} itemsPerPage={itemsPerPage} onItemsPerPageChange={setItemsPerPage} />
       </motion.div>
     </div>;
 };

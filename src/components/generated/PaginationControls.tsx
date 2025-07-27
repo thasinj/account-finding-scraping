@@ -8,7 +8,6 @@ interface PaginationControlsProps {
   itemsPerPage: number;
   onPageChange: (page: number) => void;
   onItemsPerPageChange: (itemsPerPage: number) => void;
-  mpid?: string;
 }
 const PaginationControls: React.FC<PaginationControlsProps> = ({
   currentPage,
@@ -50,22 +49,22 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       y: 0
     }} transition={{
       duration: 0.3
-    }} className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 mt-8 shadow-sm" data-magicpath-id="0" data-magicpath-path="PaginationControls.tsx">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4" data-magicpath-id="1" data-magicpath-path="PaginationControls.tsx">
-          <div className="flex items-center gap-4" data-magicpath-id="2" data-magicpath-path="PaginationControls.tsx">
-            <label htmlFor="items-per-page" className="text-sm font-medium text-gray-700" data-magicpath-id="3" data-magicpath-path="PaginationControls.tsx">
+    }} className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 mt-8 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <label htmlFor="items-per-page" className="text-sm font-medium text-gray-700">
               Show:
             </label>
-            <select id="items-per-page" value={itemsPerPage} onChange={e => onItemsPerPageChange(Number(e.target.value))} className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 bg-white/50 backdrop-blur-sm text-gray-900" data-magicpath-id="4" data-magicpath-path="PaginationControls.tsx">
-              <option value={10} data-magicpath-id="5" data-magicpath-path="PaginationControls.tsx">10</option>
-              <option value={25} data-magicpath-id="6" data-magicpath-path="PaginationControls.tsx">25</option>
-              <option value={50} data-magicpath-id="7" data-magicpath-path="PaginationControls.tsx">50</option>
-              <option value={100} data-magicpath-id="8" data-magicpath-path="PaginationControls.tsx">100</option>
+            <select id="items-per-page" value={itemsPerPage} onChange={e => onItemsPerPageChange(Number(e.target.value))} className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 bg-white/50 backdrop-blur-sm text-gray-900">
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
             </select>
-            <span className="text-sm text-gray-600" data-magicpath-id="9" data-magicpath-path="PaginationControls.tsx">per page</span>
+            <span className="text-sm text-gray-600">per page</span>
           </div>
-          <p className="text-sm text-gray-600" data-magicpath-id="10" data-magicpath-path="PaginationControls.tsx">
-            Showing <strong data-magicpath-id="11" data-magicpath-path="PaginationControls.tsx">{startItem}</strong> to <strong data-magicpath-id="12" data-magicpath-path="PaginationControls.tsx">{endItem}</strong> of <strong data-magicpath-id="13" data-magicpath-path="PaginationControls.tsx">{totalItems}</strong> profiles
+          <p className="text-sm text-gray-600">
+            Showing <strong>{startItem}</strong> to <strong>{endItem}</strong> of <strong>{totalItems}</strong> profiles
           </p>
         </div>
       </motion.div>;
@@ -78,44 +77,44 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
     y: 0
   }} transition={{
     duration: 0.3
-  }} className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 mt-8 shadow-sm" aria-label="Pagination navigation" data-magicpath-id="14" data-magicpath-path="PaginationControls.tsx">
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6" data-magicpath-id="15" data-magicpath-path="PaginationControls.tsx">
+  }} className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 mt-8 shadow-sm" aria-label="Pagination navigation">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
         {/* Items per page and info */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4" data-magicpath-id="16" data-magicpath-path="PaginationControls.tsx">
-          <div className="flex items-center gap-4" data-magicpath-id="17" data-magicpath-path="PaginationControls.tsx">
-            <label htmlFor="items-per-page" className="text-sm font-medium text-gray-700" data-magicpath-id="18" data-magicpath-path="PaginationControls.tsx">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="flex items-center gap-4">
+            <label htmlFor="items-per-page" className="text-sm font-medium text-gray-700">
               Show:
             </label>
-            <select id="items-per-page" value={itemsPerPage} onChange={e => onItemsPerPageChange(Number(e.target.value))} className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 bg-white/50 backdrop-blur-sm text-gray-900" data-magicpath-id="19" data-magicpath-path="PaginationControls.tsx">
-              <option value={10} data-magicpath-id="20" data-magicpath-path="PaginationControls.tsx">10</option>
-              <option value={25} data-magicpath-id="21" data-magicpath-path="PaginationControls.tsx">25</option>
-              <option value={50} data-magicpath-id="22" data-magicpath-path="PaginationControls.tsx">50</option>
-              <option value={100} data-magicpath-id="23" data-magicpath-path="PaginationControls.tsx">100</option>
+            <select id="items-per-page" value={itemsPerPage} onChange={e => onItemsPerPageChange(Number(e.target.value))} className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 bg-white/50 backdrop-blur-sm text-gray-900">
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
             </select>
-            <span className="text-sm text-gray-600" data-magicpath-id="24" data-magicpath-path="PaginationControls.tsx">per page</span>
+            <span className="text-sm text-gray-600">per page</span>
           </div>
-          <p className="text-sm text-gray-600" data-magicpath-id="25" data-magicpath-path="PaginationControls.tsx">
-            Showing <strong data-magicpath-id="26" data-magicpath-path="PaginationControls.tsx">{startItem}</strong> to <strong data-magicpath-id="27" data-magicpath-path="PaginationControls.tsx">{endItem}</strong> of <strong data-magicpath-id="28" data-magicpath-path="PaginationControls.tsx">{totalItems}</strong> profiles
+          <p className="text-sm text-gray-600">
+            Showing <strong>{startItem}</strong> to <strong>{endItem}</strong> of <strong>{totalItems}</strong> profiles
           </p>
         </div>
 
         {/* Pagination controls */}
-        <div className="flex items-center gap-2" data-magicpath-id="29" data-magicpath-path="PaginationControls.tsx">
+        <div className="flex items-center gap-2">
           {/* First page */}
-          <button onClick={() => onPageChange(1)} disabled={currentPage === 1} className="p-2 rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200" aria-label="Go to first page" data-magicpath-id="30" data-magicpath-path="PaginationControls.tsx">
-            <ChevronsLeft className="w-4 h-4" data-magicpath-id="31" data-magicpath-path="PaginationControls.tsx" />
+          <button onClick={() => onPageChange(1)} disabled={currentPage === 1} className="p-2 rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200" aria-label="Go to first page">
+            <ChevronsLeft className="w-4 h-4" />
           </button>
 
           {/* Previous page */}
-          <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} className="p-2 rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200" aria-label="Go to previous page" data-magicpath-id="32" data-magicpath-path="PaginationControls.tsx">
-            <ChevronLeft className="w-4 h-4" data-magicpath-id="33" data-magicpath-path="PaginationControls.tsx" />
+          <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} className="p-2 rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200" aria-label="Go to previous page">
+            <ChevronLeft className="w-4 h-4" />
           </button>
 
           {/* Page numbers */}
-          <div className="flex items-center gap-1" data-magicpath-id="34" data-magicpath-path="PaginationControls.tsx">
+          <div className="flex items-center gap-1">
             {visiblePages.map((page, index) => {
             if (page === '...') {
-              return <span key={`dots-${index}`} className="px-3 py-2 text-gray-500" data-magicpath-uuid={(page as any)["mpid"] ?? "unsafe"} data-magicpath-id="35" data-magicpath-path="PaginationControls.tsx">
+              return <span key={`dots-${index}`} className="px-3 py-2 text-gray-500">
                     ...
                   </span>;
             }
@@ -125,20 +124,20 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
               scale: 1.05
             }} whileTap={{
               scale: 0.95
-            }} aria-label={`Go to page ${pageNumber}`} aria-current={isCurrentPage ? 'page' : undefined} data-magicpath-uuid={(page as any)["mpid"] ?? "unsafe"} data-magicpath-id="36" data-magicpath-path="PaginationControls.tsx">
+            }} aria-label={`Go to page ${pageNumber}`} aria-current={isCurrentPage ? 'page' : undefined}>
                   {pageNumber}
                 </motion.button>;
           })}
           </div>
 
           {/* Next page */}
-          <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} className="p-2 rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200" aria-label="Go to next page" data-magicpath-id="37" data-magicpath-path="PaginationControls.tsx">
-            <ChevronRight className="w-4 h-4" data-magicpath-id="38" data-magicpath-path="PaginationControls.tsx" />
+          <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} className="p-2 rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200" aria-label="Go to next page">
+            <ChevronRight className="w-4 h-4" />
           </button>
 
           {/* Last page */}
-          <button onClick={() => onPageChange(totalPages)} disabled={currentPage === totalPages} className="p-2 rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200" aria-label="Go to last page" data-magicpath-id="39" data-magicpath-path="PaginationControls.tsx">
-            <ChevronsRight className="w-4 h-4" data-magicpath-id="40" data-magicpath-path="PaginationControls.tsx" />
+          <button onClick={() => onPageChange(totalPages)} disabled={currentPage === totalPages} className="p-2 rounded-lg border border-gray-200 bg-white/50 backdrop-blur-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200" aria-label="Go to last page">
+            <ChevronsRight className="w-4 h-4" />
           </button>
         </div>
       </div>
