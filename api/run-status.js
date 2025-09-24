@@ -1,4 +1,6 @@
-import { sql } from '@vercel/postgres';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_KEY);
 
 export default async function handler(req, res) {
   try {
@@ -8,22 +10,49 @@ export default async function handler(req, res) {
       return;
     }
 
-    const { rows } = await sql`select * from runs where id = ${id}`;
-    if (rows.length === 0) {
+    // Get run details
+    const { data: run, error: runError } = await supabase
+      .from('runs')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (runError || !run) {
       res.status(404).json({ message: 'Run not found' });
       return;
     }
 
-    const run = rows[0];
-    const profiles = await sql`
-      select rp.layer, rp.discovery_method, rp.found_from, p.username, p.full_name, p.follower_count
-      from run_profiles rp
-      join profiles p on p.id = rp.profile_id
-      where rp.run_id = ${id}
-      order by rp.layer asc, p.follower_count desc
-    `;
+    // Get profiles for this run
+    const { data: profiles, error: profilesError } = await supabase
+      .from('run_profiles')
+      .select(`
+        layer,
+        discovery_method,
+        found_from,
+        profiles!inner(
+          username,
+          full_name,
+          follower_count
+        )
+      `)
+      .eq('run_id', id)
+      .order('layer', { ascending: true });
 
-    res.status(200).json({ run, profiles: profiles.rows });
+    if (profilesError) {
+      throw profilesError;
+    }
+
+    // Transform profiles data to match expected format
+    const transformedProfiles = profiles.map(rp => ({
+      layer: rp.layer,
+      discovery_method: rp.discovery_method,
+      found_from: rp.found_from,
+      username: rp.profiles.username,
+      full_name: rp.profiles.full_name,
+      follower_count: rp.profiles.follower_count
+    }));
+
+    res.status(200).json({ run, profiles: transformedProfiles });
   } catch (err) {
     res.status(500).json({ message: 'Failed to get status', error: String(err) });
   }

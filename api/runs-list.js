@@ -1,4 +1,6 @@
-import { sql } from '@vercel/postgres';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_KEY);
 
 export default async function handler(req, res) {
   try {
@@ -8,25 +10,33 @@ export default async function handler(req, res) {
     }
 
     // Get all runs with profile counts
-    const { rows } = await sql`
-      select 
-        r.id,
-        r.type,
-        r.input,
-        r.status,
-        r.created_at,
-        r.completed_at,
-        r.total_api_calls,
-        r.stats,
-        count(rp.id) as profile_count
-      from runs r
-      left join run_profiles rp on r.id = rp.run_id
-      group by r.id, r.type, r.input, r.status, r.created_at, r.completed_at, r.total_api_calls, r.stats
-      order by r.created_at desc
-      limit 50
-    `;
+    const { data: runs, error } = await supabase
+      .from('runs')
+      .select(`
+        id,
+        type,
+        input,
+        status,
+        created_at,
+        completed_at,
+        total_api_calls,
+        stats,
+        run_profiles(count)
+      `)
+      .order('created_at', { ascending: false })
+      .limit(50);
 
-    res.status(200).json({ runs: rows });
+    if (error) {
+      throw error;
+    }
+
+    // Transform the data to match expected format
+    const transformedRuns = runs.map(run => ({
+      ...run,
+      profile_count: run.run_profiles?.[0]?.count || 0
+    }));
+
+    res.status(200).json({ runs: transformedRuns });
   } catch (err) {
     console.error('Error fetching runs:', err);
     res.status(500).json({ message: 'Failed to fetch runs', error: String(err) });

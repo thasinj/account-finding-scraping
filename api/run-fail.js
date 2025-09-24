@@ -1,4 +1,6 @@
-import { sql } from '@vercel/postgres';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_KEY);
 
 export default async function handler(req, res) {
   try {
@@ -15,18 +17,22 @@ export default async function handler(req, res) {
     }
 
     // Mark run as failed but preserve all data found so far
-    await sql`
-      update runs 
-      set 
-        status = 'failed', 
-        updated_at = now(), 
-        stats = ${JSON.stringify({
+    const { error } = await supabase
+      .from('runs')
+      .update({
+        status: 'failed',
+        updated_at: new Date().toISOString(),
+        stats: {
           ...stats,
           error_message,
           failed_at: new Date().toISOString()
-        })}
-      where id = ${id}
-    `;
+        }
+      })
+      .eq('id', id);
+
+    if (error) {
+      throw error;
+    }
 
     res.status(200).json({ ok: true });
   } catch (err) {

@@ -1,4 +1,6 @@
-import { sql } from '@vercel/postgres';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_KEY);
 
 export default async function handler(req, res) {
   try {
@@ -9,76 +11,91 @@ export default async function handler(req, res) {
 
     const { category, minFollowers, limit = 100, offset = 0 } = req.query;
 
-    let whereClause = '1=1';
-    let params = [];
-    let paramIndex = 1;
+    // Build query with filters
+    let query = supabase
+      .from('profiles')
+      .select(`
+        *,
+        run_profiles!inner(
+          discovery_method,
+          runs!inner(input)
+        )
+      `)
+      .order('follower_count', { ascending: false });
 
-    // Filter by category if provided
+    // Apply filters
     if (category && category !== 'all') {
-      whereClause += ` AND primary_category = $${paramIndex}`;
-      params.push(category);
-      paramIndex++;
+      query = query.eq('primary_category', category);
     }
 
-    // Filter by minimum followers if provided
     if (minFollowers && Number(minFollowers) > 0) {
-      whereClause += ` AND follower_count >= $${paramIndex}`;
-      params.push(Number(minFollowers));
-      paramIndex++;
+      query = query.gte('follower_count', Number(minFollowers));
     }
 
-    // Get profiles with discovery information
-    const profilesQuery = `
-      SELECT 
-        p.*,
-        array_agg(DISTINCT rp.discovery_method) as discovery_methods,
-        array_agg(DISTINCT r.input) as run_inputs,
-        count(DISTINCT rp.run_id) as run_count,
-        max(rp.created_at) as last_discovered_at
-      FROM profiles p
-      LEFT JOIN run_profiles rp ON p.id = rp.profile_id
-      LEFT JOIN runs r ON rp.run_id = r.id
-      WHERE ${whereClause}
-      GROUP BY p.id
-      ORDER BY p.follower_count DESC, p.last_seen_at DESC
-      LIMIT $${paramIndex} OFFSET $${paramIndex + 1}
-    `;
+    // Apply pagination
+    const { data: profiles, error } = await query
+      .range(Number(offset), Number(offset) + Number(limit) - 1);
 
-    params.push(Number(limit), Number(offset));
-
-    const { rows } = await sql.query(profilesQuery, params);
+    if (error) {
+      throw error;
+    }
 
     // Get total count for pagination
-    const countQuery = `
-      SELECT count(DISTINCT p.id) as total 
-      FROM profiles p 
-      LEFT JOIN run_profiles rp ON p.id = rp.profile_id
-      LEFT JOIN runs r ON rp.run_id = r.id
-      WHERE ${whereClause}
-    `;
+    let countQuery = supabase
+      .from('profiles')
+      .select('id', { count: 'exact', head: true });
 
-    const countParams = params.slice(0, -2); // Remove limit and offset
-    const { rows: countRows } = await sql.query(countQuery, countParams);
-    const total = Number(countRows[0].total);
+    if (category && category !== 'all') {
+      countQuery = countQuery.eq('primary_category', category);
+    }
+
+    if (minFollowers && Number(minFollowers) > 0) {
+      countQuery = countQuery.gte('follower_count', Number(minFollowers));
+    }
+
+    const { count: total, error: countError } = await countQuery;
+
+    if (countError) {
+      throw countError;
+    }
 
     // Get available categories
-    const categoriesQuery = `
-      SELECT primary_category, count(*) as count 
-      FROM profiles 
-      WHERE primary_category IS NOT NULL 
-      GROUP BY primary_category 
-      ORDER BY count DESC
-    `;
-    const { rows: categoryRows } = await sql.query(categoriesQuery);
+    const { data: categoryData, error: categoryError } = await supabase
+      .from('profiles')
+      .select('primary_category')
+      .not('primary_category', 'is', null);
+
+    if (categoryError) {
+      throw categoryError;
+    }
+
+    // Count categories
+    const categoryCount = categoryData.reduce((acc, item) => {
+      acc[item.primary_category] = (acc[item.primary_category] || 0) + 1;
+      return acc;
+    }, {});
+
+    const categories = Object.entries(categoryCount)
+      .map(([primary_category, count]) => ({ primary_category, count }))
+      .sort((a, b) => b.count - a.count);
+
+    // Transform profiles data
+    const transformedProfiles = profiles.map(profile => ({
+      ...profile,
+      discovery_methods: [...new Set(profile.run_profiles?.map(rp => rp.discovery_method) || [])],
+      run_inputs: [...new Set(profile.run_profiles?.map(rp => rp.runs?.input) || [])],
+      run_count: profile.run_profiles?.length || 0,
+      last_discovered_at: profile.last_seen_at
+    }));
 
     res.status(200).json({ 
-      profiles: rows,
-      total,
-      categories: categoryRows,
+      profiles: transformedProfiles,
+      total: total || 0,
+      categories,
       pagination: {
         limit: Number(limit),
         offset: Number(offset),
-        hasMore: Number(offset) + Number(limit) < total
+        hasMore: Number(offset) + Number(limit) < (total || 0)
       }
     });
   } catch (err) {
