@@ -19,9 +19,19 @@ export interface HashtagSearchResponse {
   status: string;
 }
 
-export interface ApiError {
+export interface ApiErrorData {
   message: string;
   status?: number;
+}
+
+export class ApiError extends Error {
+  status?: number;
+  
+  constructor(data: ApiErrorData) {
+    super(data.message);
+    this.name = 'ApiError';
+    this.status = data.status;
+  }
 }
 
 class InstagramApiService {

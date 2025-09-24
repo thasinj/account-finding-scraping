@@ -247,7 +247,7 @@ export default function DiscoveryDashboard() {
             >
               View Status Dashboard
             </button>
-            <a href={statusUrl} target="_blank" rel="noreferrer" className="text-blue-600 underline text-sm">
+            <a href={statusUrl || '#'} target="_blank" rel="noreferrer" className="text-blue-600 underline text-sm">
               Raw JSON
             </a>
           </>
