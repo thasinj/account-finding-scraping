@@ -1,0 +1,16 @@
+{
+  "discovery_summary": {
+    "total_profiles": 0,
+    "total_api_calls": 1,
+    "discovery_timestamp": "2025-08-01T06:03:39.433958",
+    "max_layers": 2
+  },
+  "profiles_by_layer": {
+    "0": [],
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": []
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "hashtag": "travel",
+  "search_time": "2025-07-27 16:19:47",
+  "total_profiles": 2,
+  "is_demo_data": true,
+  "profiles": [
+    {
+      "username": "natgeotravel",
+      "full_name": "National Geographic Travel",
+      "followers": 24000000,
+      "following": 567,
+      "posts": 8765,
+      "verified": true,
+      "profile_url": "https://instagram.com/natgeotravel",
+      "biography": "Official travel account of National Geographic."
+    },
+    {
+      "username": "beautifuldestinations",
+      "full_name": "Beautiful Destinations",
+      "followers": 16000000,
+      "following": 2134,
+      "posts": 12000,
+      "verified": true,
+      "profile_url": "https://instagram.com/beautifuldestinations",
+      "biography": "The most beautiful places on Earth 🌍"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "user_data": {
+    "follower_count": 382508,
+    "following_count": 551,
+    "media_count": 27,
+    "pk": "211660920",
+    "full_name": "Josiah Jenkins",
+    "username": "mom",
+    "is_verified": true,
+    "profile_pic_url": "https://scontent-ams2-1.cdninstagram.com/v/t51.2885-19/424589410_926414695499356_4686233323556395184_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2QG7A4ccTTMOnNMz1Kq6XGcGWbWFUtcarxF36tBBv1XJdOxuqoTwAQOoEVUe0c_Itbs&_nc_ohc=r1TleJg5FRQQ7kNvwEw2ssG&_nc_gid=fjYls8fAF9qz1Ftzi7Hu5w&edm=AA5fTDYBAAAA&ccb=7-5&oh=00_AfQ_BNx9nQO2ePMFFixHieOK0MV-uXQfHOtoyt7Pm735zA&oe=688C7E95&_nc_sid=7edfe2",
+    "text_post_app_badge_label": "mom",
+    "show_text_post_app_badge": true,
+    "text_post_new_post_count": 0,
+    "live_broadcast_visibility": null,
+    "live_broadcast_id": null,
+    "hd_profile_pic_url_info": {
+      "url": "https://scontent-ams2-1.cdninstagram.com/v/t51.2885-19/424589410_926414695499356_4686233323556395184_n.jpg?efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2QG7A4ccTTMOnNMz1Kq6XGcGWbWFUtcarxF36tBBv1XJdOxuqoTwAQOoEVUe0c_Itbs&_nc_ohc=r1TleJg5FRQQ7kNvwEw2ssG&_nc_gid=fjYls8fAF9qz1Ftzi7Hu5w&edm=AA5fTDYBAAAA&ccb=7-5&oh=00_AfRuhFTzpBkBQykyj-nVc0ES3WdkIzqYasAo0SKHzIsaUg&oe=688C7E95&_nc_sid=7edfe2"
+    },
+    "is_unpublished": false,
+    "is_private": true,
+    "friendship_status": {
+      "following": false,
+      "blocking": false,
+      "is_feed_favorite": false,
+      "outgoing_request": false,
+      "followed_by": false,
+      "incoming_request": false,
+      "is_restricted": false,
+      "is_bestie": false
+    },
+    "ai_agent_type": null,
+    "shouldRemoveMessageButtonRiskyInteraction": false,
+    "supervision_info": null,
+    "fbid_v2": "17841400387603307",
+    "id": "211660920"
+  },
+  "user_posts": []
+}

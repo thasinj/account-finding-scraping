@@ -1,0 +1,58 @@
+{
+  "hashtag": "luxury",
+  "search_time": "2025-07-27 16:19:31",
+  "total_profiles": 5,
+  "is_demo_data": true,
+  "profiles": [
+    {
+      "username": "chanel",
+      "full_name": "CHANEL",
+      "followers": 52000000,
+      "following": 123,
+      "posts": 3420,
+      "verified": true,
+      "profile_url": "https://instagram.com/chanel",
+      "biography": "French luxury fashion house founded in 1910 by Gabrielle \"Coco\" Chanel."
+    },
+    {
+      "username": "louisvuitton",
+      "full_name": "Louis Vuitton",
+      "followers": 46000000,
+      "following": 142,
+      "posts": 4156,
+      "verified": true,
+      "profile_url": "https://instagram.com/louisvuitton",
+      "biography": "Luxury French fashion and leather goods company since 1854."
+    },
+    {
+      "username": "gucci",
+      "full_name": "Gucci",
+      "followers": 48000000,
+      "following": 98,
+      "posts": 2987,
+      "verified": true,
+      "profile_url": "https://instagram.com/gucci",
+      "biography": "Italian luxury fashion house founded in Florence in 1921."
+    },
+    {
+      "username": "rolex",
+      "full_name": "Rolex",
+      "followers": 12000000,
+      "following": 0,
+      "posts": 1234,
+      "verified": true,
+      "profile_url": "https://instagram.com/rolex",
+      "biography": "Swiss luxury watch manufacturer. A crown for every achievement."
+    },
+    {
+      "username": "luxurylifestyle",
+      "full_name": "Luxury Lifestyle",
+      "followers": 2400000,
+      "following": 892,
+      "posts": 5678,
+      "verified": false,
+      "profile_url": "https://instagram.com/luxurylifestyle",
+      "biography": "Showcasing the finest in luxury living, fashion, and travel."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "discovery_summary": {
+    "total_profiles": 1,
+    "total_api_calls": 1,
+    "discovery_timestamp": "2025-08-01T06:05:56.921426",
+    "max_layers": 1
+  },
+  "profiles_by_layer": {
+    "0": [
+      {
+        "username": "supercarblondie",
+        "full_name": "",
+        "followers": 0,
+        "following": 0,
+        "posts": 0,
+        "verified": false,
+        "private": false,
+        "profile_url": "https://instagram.com/supercarblondie",
+        "discovery_layer": 0,
+        "discovered_from": "seed",
+        "pk": ""
+      }
+    ],
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": []
+  }
+}

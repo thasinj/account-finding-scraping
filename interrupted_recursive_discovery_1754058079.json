@@ -1,0 +1,43 @@
+{
+  "discovery_summary": {
+    "total_profiles": 2,
+    "total_api_calls": 0,
+    "discovery_timestamp": "2025-08-01T07:21:19.537184",
+    "max_layers": 1
+  },
+  "profiles_by_layer": {
+    "0": [
+      {
+        "username": "soueunavida",
+        "full_name": "",
+        "followers": 0,
+        "following": 0,
+        "posts": 0,
+        "verified": false,
+        "private": false,
+        "profile_url": "https://instagram.com/soueunavida",
+        "discovery_layer": 0,
+        "discovered_from": "seed",
+        "pk": ""
+      },
+      {
+        "username": "mexmemez",
+        "full_name": "",
+        "followers": 0,
+        "following": 0,
+        "posts": 0,
+        "verified": false,
+        "private": false,
+        "profile_url": "https://instagram.com/mexmemez",
+        "discovery_layer": 0,
+        "discovered_from": "seed",
+        "pk": ""
+      }
+    ],
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": []
+  }
+}

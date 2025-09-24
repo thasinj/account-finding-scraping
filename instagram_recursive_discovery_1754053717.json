@@ -1,0 +1,149 @@
+{
+  "discovery_summary": {
+    "total_profiles": 10,
+    "total_api_calls": 13,
+    "discovery_timestamp": "2025-08-01T06:08:37.938101",
+    "max_layers": 2
+  },
+  "profiles_by_layer": {
+    "0": [
+      {
+        "username": "luxury",
+        "full_name": "",
+        "followers": 0,
+        "following": 0,
+        "posts": 0,
+        "verified": false,
+        "private": false,
+        "profile_url": "https://instagram.com/luxury",
+        "discovery_layer": 0,
+        "discovered_from": "seed",
+        "pk": ""
+      }
+    ],
+    "1": [
+      {
+        "username": "millionaire_mentor",
+        "full_name": "Millionaire Mentor",
+        "followers": 10262196,
+        "following": 411,
+        "posts": 2013,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/millionaire_mentor",
+        "discovery_layer": 1,
+        "discovered_from": "luxury",
+        "pk": "1427587777"
+      },
+      {
+        "username": "power.ai",
+        "full_name": "Artificial Intelligence",
+        "followers": 627907,
+        "following": 21,
+        "posts": 2442,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/power.ai",
+        "discovery_layer": 1,
+        "discovered_from": "luxury",
+        "pk": "58134309921"
+      },
+      {
+        "username": "rollsroyceabudhabi",
+        "full_name": "Rolls-Royce Abu Dhabi",
+        "followers": 703517,
+        "following": 0,
+        "posts": 2492,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/rollsroyceabudhabi",
+        "discovery_layer": 1,
+        "discovered_from": "luxury",
+        "pk": "358918345"
+      }
+    ],
+    "2": [
+      {
+        "username": "openai",
+        "full_name": "OpenAI",
+        "followers": 2923727,
+        "following": 3,
+        "posts": 1544,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/openai",
+        "discovery_layer": 2,
+        "discovered_from": "power.ai",
+        "pk": "45374573700"
+      },
+      {
+        "username": "chatgpt",
+        "full_name": "ChatGPT",
+        "followers": 1559516,
+        "following": 3,
+        "posts": 369,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/chatgpt",
+        "discovery_layer": 2,
+        "discovered_from": "power.ai",
+        "pk": "60603547287"
+      },
+      {
+        "username": "chatgptricks",
+        "full_name": "Artificial Intelligence (AI) • ChatGPT",
+        "followers": 2235301,
+        "following": 148,
+        "posts": 1819,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/chatgptricks",
+        "discovery_layer": 2,
+        "discovered_from": "power.ai",
+        "pk": "57666094056"
+      },
+      {
+        "username": "rollsroycecharlotte",
+        "full_name": "Rolls-Royce Motor Cars Charlotte",
+        "followers": 27087,
+        "following": 11,
+        "posts": 225,
+        "verified": false,
+        "private": false,
+        "profile_url": "https://instagram.com/rollsroycecharlotte",
+        "discovery_layer": 2,
+        "discovered_from": "rollsroyceabudhabi",
+        "pk": "60007577644"
+      },
+      {
+        "username": "bentleysingen",
+        "full_name": "BENTLEY SINGEN",
+        "followers": 33775,
+        "following": 47,
+        "posts": 311,
+        "verified": false,
+        "private": false,
+        "profile_url": "https://instagram.com/bentleysingen",
+        "discovery_layer": 2,
+        "discovered_from": "rollsroyceabudhabi",
+        "pk": "11323559193"
+      },
+      {
+        "username": "rollsroycemunich",
+        "full_name": "Rolls-Royce Motor Cars München",
+        "followers": 16297,
+        "following": 114,
+        "posts": 553,
+        "verified": false,
+        "private": false,
+        "profile_url": "https://instagram.com/rollsroycemunich",
+        "discovery_layer": 2,
+        "discovered_from": "rollsroyceabudhabi",
+        "pk": "6875963746"
+      }
+    ],
+    "3": [],
+    "4": [],
+    "5": []
+  }
+}

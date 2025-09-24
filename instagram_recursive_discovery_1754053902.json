@@ -1,0 +1,189 @@
+{
+  "discovery_summary": {
+    "total_profiles": 13,
+    "total_api_calls": 18,
+    "discovery_timestamp": "2025-08-01T06:11:42.329477",
+    "max_layers": 3
+  },
+  "profiles_by_layer": {
+    "0": [
+      {
+        "username": "nike",
+        "full_name": "",
+        "followers": 0,
+        "following": 0,
+        "posts": 0,
+        "verified": false,
+        "private": false,
+        "profile_url": "https://instagram.com/nike",
+        "discovery_layer": 0,
+        "discovered_from": "seed",
+        "pk": ""
+      },
+      {
+        "username": "adidas",
+        "full_name": "",
+        "followers": 0,
+        "following": 0,
+        "posts": 0,
+        "verified": false,
+        "private": false,
+        "profile_url": "https://instagram.com/adidas",
+        "discovery_layer": 0,
+        "discovered_from": "seed",
+        "pk": ""
+      }
+    ],
+    "1": [
+      {
+        "username": "leomessi",
+        "full_name": "Leo Messi",
+        "followers": 506741847,
+        "following": 348,
+        "posts": 1396,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/leomessi",
+        "discovery_layer": 1,
+        "discovered_from": "adidas",
+        "pk": "427553890"
+      },
+      {
+        "username": "adidasoriginals",
+        "full_name": "adidas Originals",
+        "followers": 34226730,
+        "following": 1005,
+        "posts": 326,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/adidasoriginals",
+        "discovery_layer": 1,
+        "discovered_from": "adidas",
+        "pk": "9187952"
+      }
+    ],
+    "2": [
+      {
+        "username": "laliga",
+        "full_name": "LALIGA",
+        "followers": 53227960,
+        "following": 591,
+        "posts": 70232,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/laliga",
+        "discovery_layer": 2,
+        "discovered_from": "leomessi",
+        "pk": "591417230"
+      },
+      {
+        "username": "marcusrashford",
+        "full_name": "MR",
+        "followers": 19618478,
+        "following": 242,
+        "posts": 985,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/marcusrashford",
+        "discovery_layer": 2,
+        "discovered_from": "leomessi",
+        "pk": "182044648"
+      },
+      {
+        "username": "complexmusic",
+        "full_name": "Complex Music",
+        "followers": 1998561,
+        "following": 582,
+        "posts": 13914,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/complexmusic",
+        "discovery_layer": 2,
+        "discovered_from": "adidasoriginals",
+        "pk": "12790857096"
+      }
+    ],
+    "3": [
+      {
+        "username": "premierleague",
+        "full_name": "Premier League",
+        "followers": 77943131,
+        "following": 38,
+        "posts": 35430,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/premierleague",
+        "discovery_layer": 3,
+        "discovered_from": "laliga",
+        "pk": "208502444"
+      },
+      {
+        "username": "sergioramos",
+        "full_name": "Sergio Ramos",
+        "followers": 66612973,
+        "following": 1993,
+        "posts": 2823,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/sergioramos",
+        "discovery_layer": 3,
+        "discovered_from": "laliga",
+        "pk": "1521885756"
+      },
+      {
+        "username": "_rl9",
+        "full_name": "Robert Lewandowski",
+        "followers": 38067650,
+        "following": 135,
+        "posts": 2314,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/_rl9",
+        "discovery_layer": 3,
+        "discovered_from": "marcusrashford",
+        "pk": "963986569"
+      },
+      {
+        "username": "judebellingham",
+        "full_name": "Jude Bellingham",
+        "followers": 40957243,
+        "following": 813,
+        "posts": 541,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/judebellingham",
+        "discovery_layer": 3,
+        "discovered_from": "marcusrashford",
+        "pk": "479550516"
+      },
+      {
+        "username": "rap",
+        "full_name": "RapTV",
+        "followers": 12925715,
+        "following": 1545,
+        "posts": 53741,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/rap",
+        "discovery_layer": 3,
+        "discovered_from": "complexmusic",
+        "pk": "1459940668"
+      },
+      {
+        "username": "freddiegibbs",
+        "full_name": "Freddie Gibbs",
+        "followers": 421293,
+        "following": 160,
+        "posts": 281,
+        "verified": true,
+        "private": false,
+        "profile_url": "https://instagram.com/freddiegibbs",
+        "discovery_layer": 3,
+        "discovered_from": "complexmusic",
+        "pk": "55927043775"
+      }
+    ],
+    "4": [],
+    "5": []
+  }
+}
