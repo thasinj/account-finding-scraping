@@ -20,8 +20,7 @@ export default async function handler(req, res) {
         created_at,
         completed_at,
         total_api_calls,
-        stats,
-        run_profiles(count)
+        stats
       `)
       .order('created_at', { ascending: false })
       .limit(50);
@@ -30,10 +29,17 @@ export default async function handler(req, res) {
       throw error;
     }
 
-    // Transform the data to match expected format
-    const transformedRuns = runs.map(run => ({
-      ...run,
-      profile_count: run.run_profiles?.[0]?.count || 0
+    // Get profile counts for each run separately
+    const transformedRuns = await Promise.all(runs.map(async (run) => {
+      const { count, error: countError } = await supabase
+        .from('run_profiles')
+        .select('*', { count: 'exact', head: true })
+        .eq('run_id', run.id);
+
+      return {
+        ...run,
+        profile_count: countError ? 0 : (count || 0)
+      };
     }));
 
     res.status(200).json({ runs: transformedRuns });

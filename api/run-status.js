@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         layer,
         discovery_method,
         found_from,
-        profiles!inner(
+        profiles(
           username,
           full_name,
           follower_count
@@ -47,9 +47,9 @@ export default async function handler(req, res) {
       layer: rp.layer,
       discovery_method: rp.discovery_method,
       found_from: rp.found_from,
-      username: rp.profiles.username,
-      full_name: rp.profiles.full_name,
-      follower_count: rp.profiles.follower_count
+      username: rp.profiles?.username || 'unknown',
+      full_name: rp.profiles?.full_name || '',
+      follower_count: rp.profiles?.follower_count || 0
     }));
 
     res.status(200).json({ run, profiles: transformedProfiles });
