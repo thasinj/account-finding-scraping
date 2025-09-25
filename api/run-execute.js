@@ -122,12 +122,16 @@ async function ingestProfiles(runId, profiles, layer, discoveredFrom, discoveryM
     
     for (const profile of profiles) {
       try {
+        console.log(`Processing profile: ${profile.username} with ${profile.follower_count} followers`);
+        
         // Save profile to database
         const savedProfile = await upsertProfileFromApi(
           { user_data: profile }, 
           discoveredFrom, 
           category
         );
+        
+        console.log(`Upsert result for ${profile.username}:`, savedProfile ? `ID ${savedProfile.id}` : 'null');
         
         if (savedProfile) {
           // Create run_profiles relationship
@@ -143,7 +147,12 @@ async function ingestProfiles(runId, profiles, layer, discoveredFrom, discoveryM
             
           if (!linkError) {
             totalInserted++;
+            console.log(`Successfully linked ${profile.username} to run ${runId}`);
+          } else {
+            console.error(`Link error for ${profile.username}:`, linkError);
           }
+        } else {
+          console.error(`Failed to save profile ${profile.username}`);
         }
       } catch (profileError) {
         console.error(`Error processing profile ${profile.username}:`, profileError);
@@ -162,7 +171,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const { run_id } = req.body;
+  const { run_id, chunk = 0 } = req.body;
   if (!run_id) {
     return res.status(400).json({ message: 'Missing run_id' });
   }
@@ -197,87 +206,69 @@ export default async function handler(req, res) {
     let totalInserted = 0;
     let seedUsernames = [];
 
-    // Phase 1: Collect initial seeds
+    // Phase 1: Collect initial seeds (simplified for timeout)
     if (type === 'combined') {
-      // Get hashtag posts first
-      const posts = await fetchHashtagPosts(input, pages);
-      const hashtagUsernames = [...new Set(
-        posts
-          .map(post => post?.username || post?.user?.username)
-          .filter(Boolean)
-      )];
-      
-      // Get profile details for hashtag users
-      const hashtagProfiles = [];
-      for (const username of hashtagUsernames.slice(0, 50)) {
-        const profile = await fetchProfileDetails(username);
-        if (profile && profile.follower_count >= minFollowers) {
-          hashtagProfiles.push({ username, ...profile });
-        }
-      }
-      
-      if (hashtagProfiles.length > 0) {
-        const inserted = await ingestProfiles(
-          run_id, 
-          hashtagProfiles, 
-          0, 
-          `#${input}`, 
-          'hashtag_posts', 
-          input
-        );
-        totalInserted += inserted;
-      }
-      
-      seedUsernames = hashtagProfiles.map(p => p.username);
+      // Skip hashtag posts for now to avoid timeout
+      // Use input as direct seed
+      seedUsernames = [input];
     } else {
       // Similar only mode - use input as seed
       seedUsernames = [input];
     }
 
-    // Phase 2: Multi-layer similar account discovery
+    // Phase 2: Single layer similar account discovery (optimized for serverless timeout)
     let currentLayer = 1;
-    let currentSeeds = seedUsernames.slice(0, 20); // Limit seeds to prevent explosion
+    let currentSeeds = seedUsernames.slice(0, 5); // Reduce to 5 seeds max for timeout
     
-    while (currentLayer <= maxLayers && currentSeeds.length > 0) {
+    while (currentLayer <= Math.min(maxLayers, 1) && currentSeeds.length > 0) {
       const layerProfiles = [];
       
-      // Process seeds in parallel batches to speed up discovery
-      const seedBatches = chunk(currentSeeds, 5);
+      // Process only first 3 seeds to stay within timeout
+      const limitedSeeds = currentSeeds.slice(0, 3);
       
-      for (const seedBatch of seedBatches) {
-        const batchPromises = seedBatch.map(async (seed) => {
-          const similarAccounts = await fetchSimilarAccounts(seed, similarCount);
-          const profiles = [];
-          
-          for (const similar of similarAccounts) {
-            if (similar.username) {
-              const profile = await fetchProfileDetails(similar.username);
-              if (profile && profile.follower_count >= minFollowers) {
-                profiles.push({ username: similar.username, ...profile });
-              }
-            }
-          }
-          
-          return profiles;
-        });
-        
-        const batchResults = await Promise.all(batchPromises);
-        for (const profiles of batchResults) {
-          layerProfiles.push(...profiles);
-        }
-      }
+       for (const seed of limitedSeeds) {
+         console.log(`Processing seed: ${seed}`);
+         const similarAccounts = await fetchSimilarAccounts(seed, Math.min(similarCount, 5));
+         console.log(`Found ${similarAccounts.length} similar accounts for ${seed}`);
+         
+         // Process only first 5 similar accounts to avoid timeout
+         for (const similar of similarAccounts.slice(0, 5)) {
+           if (similar.username) {
+             console.log(`Fetching profile for: ${similar.username}`);
+             const profile = await fetchProfileDetails(similar.username);
+             if (profile && profile.follower_count) {
+               console.log(`Profile ${similar.username}: ${profile.follower_count} followers (min: ${minFollowers})`);
+               if (profile.follower_count >= minFollowers) {
+                 const profileToAdd = { username: similar.username, ...profile };
+                 layerProfiles.push(profileToAdd);
+                 console.log(`Added ${similar.username} to layer profiles`);
+               } else {
+                 console.log(`Skipped ${similar.username} - below follower threshold`);
+               }
+             } else {
+               console.log(`No profile data for ${similar.username}`);
+             }
+           }
+         }
+       }
       
       // Remove duplicates
+      console.log(`Before deduplication: ${layerProfiles.length} profiles`);
       const uniqueProfiles = layerProfiles.reduce((acc, profile) => {
         if (!acc.some(p => p.username === profile.username)) {
           acc.push(profile);
         }
         return acc;
       }, []);
+      console.log(`After deduplication: ${uniqueProfiles.length} unique profiles`);
       
-      if (uniqueProfiles.length === 0) break;
+      if (uniqueProfiles.length === 0) {
+        console.log('No profiles to ingest, breaking...');
+        break;
+      }
       
       // Ingest layer profiles
+      console.log(`Attempting to ingest ${uniqueProfiles.length} unique profiles`);
       const inserted = await ingestProfiles(
         run_id,
         uniqueProfiles,
@@ -286,12 +277,11 @@ export default async function handler(req, res) {
         'similar_accounts',
         input
       );
+      console.log(`Successfully inserted ${inserted} profiles`);
       
       totalInserted += inserted;
-      
-      // Prepare seeds for next layer (limit to prevent exponential growth)
-      currentSeeds = uniqueProfiles.slice(0, 10).map(p => p.username);
       currentLayer++;
+      break; // Force single layer for now to avoid timeout
     }
 
     // Mark run as completed

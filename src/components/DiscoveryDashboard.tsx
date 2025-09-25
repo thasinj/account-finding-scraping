@@ -78,7 +78,7 @@ export default function DiscoveryDashboard() {
       appendLog('🚀 Starting autonomous backend discovery...');
       appendLog('Discovery will run independently - you can close this tab safely!');
       
-      const executeResp = await fetch('/api/run-execute', {
+      const executeResp = await fetch('/api/run-execute-optimized', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ run_id: id })
