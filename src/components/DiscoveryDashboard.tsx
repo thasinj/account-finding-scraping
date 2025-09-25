@@ -13,6 +13,7 @@ export default function DiscoveryDashboard() {
   const [pages, setPages] = useState<number>(2);
   const [similarCount, setSimilarCount] = useState<number>(10);
   const [minFollowers, setMinFollowers] = useState<number>(10000);
+  const [maxLayers, setMaxLayers] = useState<number>(2);
   const [run, setRun] = useState<RunMeta | null>(null);
   const [running, setRunning] = useState<boolean>(false);
   const [logs, setLogs] = useState<string[]>([]);
@@ -63,7 +64,7 @@ export default function DiscoveryDashboard() {
         body: JSON.stringify({
           type: mode,
           input,
-          params: { pages, similarCount, minFollowers }
+          params: mode === 'combined' ? { pages, similarCount, minFollowers, maxLayers } : { similarCount, minFollowers }
         })
       });
       if (!startRes.ok) throw new Error(`run-start failed: ${startRes.status}`);
@@ -73,7 +74,26 @@ export default function DiscoveryDashboard() {
       setStatusUrl(statusHref);
       appendLog(`Run created: ${id}`);
 
-      // 2) Collect seeds and similars
+      // 2) Trigger autonomous backend discovery
+      appendLog('🚀 Starting autonomous backend discovery...');
+      appendLog('Discovery will run independently - you can close this tab safely!');
+      
+      const executeResp = await fetch('/api/run-execute', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ run_id: id })
+      });
+      
+      if (!executeResp.ok) {
+        throw new Error(`Discovery execution failed: ${executeResp.status}`);
+      }
+      
+      const result = await executeResp.json();
+      appendLog(`✅ Discovery completed! Found ${result.totalInserted} profiles across ${result.layersCompleted} layers.`);
+      
+      // All discovery logic now handled by backend
+      /*
+      // Legacy frontend discovery code (commented out)
       let seedUsernames: string[] = [];
       if (mode === 'combined') {
         appendLog(`Fetching hashtag seeds for #${input} (pages: ${pages})...`);
@@ -175,13 +195,85 @@ export default function DiscoveryDashboard() {
         }
       }
 
-      // 6) Complete run
+      // 6) Multi-layer discovery for combined mode
+      if (mode === 'combined' && maxLayers > 1) {
+        let currentLayer = 2;
+        let currentSeeds = filtered.map(p => p.username);
+        
+        while (currentLayer <= maxLayers && currentSeeds.length > 0) {
+          appendLog(`Starting layer ${currentLayer} with ${currentSeeds.length} seeds...`);
+          
+          // Take first 10 seeds for this layer to avoid exponential explosion
+          const layerSeeds = currentSeeds.slice(0, 10);
+          let layerProfiles: any[] = [];
+          
+          for (const seed of layerSeeds) {
+            try {
+              const simResp = await fetch(`/api/similar?username=${encodeURIComponent(seed)}`);
+              if (simResp.ok) {
+                const simData = await simResp.json();
+                if (Array.isArray(simData)) {
+                  for (const profile of simData.slice(0, similarCount)) {
+                    if (profile.username) {
+                      const profileResp = await fetch(`/api/profile?username=${encodeURIComponent(profile.username)}`);
+                      if (profileResp.ok) {
+                        const profileData = await profileResp.json();
+                        if (profileData?.user_data?.follower_count >= minFollowers) {
+                          layerProfiles.push({
+                            username: profile.username,
+                            ...profileData.user_data
+                          });
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            } catch (err) {
+              // Continue with other seeds
+            }
+          }
+          
+          if (layerProfiles.length === 0) break;
+          
+          // Ingest layer profiles
+          const layerBatches = chunk(layerProfiles, 50);
+          let layerInserted = 0;
+          for (const batch of layerBatches) {
+            const ing = await fetch('/api/run-ingest', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                run_id: run?.id || id,
+                layer: currentLayer,
+                discovered_from: `layer_${currentLayer-1}`,
+                discovery_method: 'similar_accounts',
+                category: input,
+                profiles: batch
+              })
+            });
+            if (ing.ok) {
+              const json = await ing.json();
+              layerInserted += Number(json?.inserted_count || 0);
+            }
+          }
+          
+          appendLog(`Layer ${currentLayer}: Found ${layerProfiles.length} profiles, inserted ${layerInserted}`);
+          totalInserted += layerInserted;
+          currentSeeds = layerProfiles.map(p => p.username);
+          currentLayer++;
+        }
+      }
+
+      // 7) Complete run
       await fetch('/api/run-complete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, stats: { mode, input, pages, similarCount, minFollowers, totalInserted } })
+        body: JSON.stringify({ id, stats: { mode, input, pages, similarCount, minFollowers, maxLayers, totalInserted } })
       });
       appendLog('Run completed.');
+      */
+      // End of legacy code
     } catch (e: any) {
       appendLog(`Error: ${String(e?.message || e)}`);
       
@@ -194,7 +286,7 @@ export default function DiscoveryDashboard() {
             body: JSON.stringify({ 
               id: run.id, 
               error_message: String(e?.message || e),
-              stats: { mode, input, pages, similarCount, minFollowers }
+              stats: { mode, input, pages, similarCount, minFollowers, maxLayers, error: e?.message }
             })
           });
           appendLog('⚠️ Run marked as failed - data preserved up to failure point');
@@ -236,6 +328,12 @@ export default function DiscoveryDashboard() {
           <span className="text-sm">Min followers</span>
           <input type="number" min={1000} step={1000} value={minFollowers} onChange={e => setMinFollowers(Number(e.target.value))} className="border rounded px-2 py-1 w-28" placeholder="10000" />
         </label>
+        {mode === 'combined' && (
+          <label className="flex flex-col">
+            <span className="text-sm">Max layers</span>
+            <input type="number" min={1} max={5} value={maxLayers} onChange={e => setMaxLayers(Number(e.target.value))} className="border rounded px-2 py-1 w-24" />
+          </label>
+        )}
         <button onClick={startRun} disabled={!canStart} className="bg-black text-white rounded px-3 py-2 disabled:opacity-50">
           {running ? 'Running…' : 'Start Run'}
         </button>
